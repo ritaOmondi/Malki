@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>log in and sign up pages</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+<body>
+    <div class="wrapper">
+      <form action="register" method="POST">
+        <h2>SignUp</h2>
+          <div class="input-field">
+          <input type="text" id = "name" name = "name" required>
+          <label>Name</label>
+        </div>
+        <div class="input-field">
+            <input type="text"  id = "email" name = "email" required>
+            <label>Email Address</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id = "phone" name = "phone"required>
+            <label>Phone Number</label>
+          </div>
+        <div class="input-field">
+          <input type="password" id = "password" name = "password"required>
+          <label>   Password</label>
+        </div>
+        <div class="input-field">
+            <input type="password"id = "confirm-password" name = "confirm-password" required>
+            <label>   Confirm Password</label>
+          </div>
+        
+        <button type="submit">Sign Up</button>
+        <div class="register">
+          <p>Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>

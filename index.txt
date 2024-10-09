@@ -1,0 +1,29 @@
+const http = require('http')
+const port = 8001
+
+const server = http.createServer((req,res)=>{
+    //console.log(req)
+    if (req.url == '/'){
+        res.setHeader('Content-Type', 'text/html')
+        res.statusCode = 200
+        res.write('<h1>Malki</h1>')
+        res.end()
+    }
+    else if (req.url == '/about'){
+        res.setHeader('Content-Type', 'text/html')
+        res.statusCode = 200
+        res.write('<p style = "color:blue">This is the about page</p>')
+        res.end()
+    }
+    else{
+        res.setHeader('Content-Type', 'text/html')
+        res.statusCode = 400
+        res.write('<h1>404 Page not Found</>')
+    }
+
+})
+
+server.listen(port, ()=>{
+    
+    console.log(`server is running on port ${port}`)
+})

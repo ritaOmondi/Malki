@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In and Sign Up Pages</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+<body>
+    <div class="wrapper">
+      <form action="/login" method="POST">
+        <h2>Login</h2>
+        <div id="error-message" style="font-size:20px;font-weight: bold; color: #e10808;"></div> <!-- Placeholder for error messages -->
+        <div class="input-field">
+          <input type="text" id="email" name="email" required>
+          <label>Enter your email</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="password" name="password" required>
+          <label>Enter your password</label>
+        </div>
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember">
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Log In</button>
+        <div class="register">
+          <p>Don't have an account? <a href="register.html">Register</a></p>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // Check for URL parameters to display error messages
+      const urlParams = new URLSearchParams(window.location.search);
+      const errorMessage = urlParams.get('error');
+      if (errorMessage) {
+          document.getElementById('error-message').innerText = errorMessage;
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+[
+    {
+        "id" : 1,
+        "First_Name": "Rita",
+        "Second_Name": "Omondi",
+        "Age": 5,
+        "Diagnosis": "ASD",
+        "Father": "Omondi",
+        "Mother": "Adhiambo",
+        "Residence": "Gachie",
+        "County": "Kiambu"
+
+    },
+
+    {
+        "id" : 2,
+        "First_Name": "Kevin",
+        "Second_Name": "Alex",
+        "Age": 3,
+        "Diagnosis": "ASD",
+        "Father": "Wawire",
+        "Mother": "Sophia",
+        "Residence": "Gachie",
+        "County": "Kiambu"
+
+    },
+    {
+        "id" : 6,
+        "First_Name": "Kevin",
+        "Second_Name": "Alex",
+        "Age": 3,
+        "Diagnosis": "ASD",
+        "Father": "Wawire",
+        "Mother": "Sophia",
+        "Residence": "Gachie",
+        "County": "Kiambu"
+
+    },
+    {
+        "id" : 3,
+        "First_Name": "Kevin",
+        "Second_Name": "Alex",
+        "Age": 3,
+        "Diagnosis": "ASD",
+        "Father": "Wawire",
+        "Mother": "Sophia",
+        "Residence": "Gachie",
+        "County": "Kiambu"
+
+    },
+    {
+        "id" : 4,
+        "First_Name": "Kevin",
+        "Second_Name": "Alex",
+        "Age": 3,
+        "Diagnosis": "ASD",
+        "Father": "Wawire",
+        "Mother": "Sophia",
+        "Residence": "Gachie",
+        "County": "Kiambu"
+
+    },
+    {
+        "id" : 2,
+        "First_Name": "Kevin",
+        "Second_Name": "Alex",
+        "Age": 3,
+        "Diagnosis": "ASD",
+        "Father": "Wawire",
+        "Mother": "Sophia",
+        "Residence": "Gachie",
+        "County": "Kiambu"
+
+    } 
+]
