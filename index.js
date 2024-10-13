@@ -88,26 +88,32 @@ app.post("/login", (req, res) => {
                 return res.redirect('/login?error=Incorrect password. Please try again.');
             }
             // If everything is correct, proceed with login
-            return res.send("Login successful!"); // Redirect to a dashboard or home page as needed
+            // Redirect to user.html after successful login
+            return res.redirect('/user.html'); // Change this line
         })
         .catch(err => {
             console.error("Error during login:", err);
             return res.redirect('/login?error=Internal server error');
         });
 });
-
-// Connecting with the index.html
+//ROUTES
+// 1....Connecting with the index.html
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'index.html'));
 });
+// 2.. Connecting with register page
 app.get('/register', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'register.html'));
 });
+//3... Route to login page
 app.get('/login', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'login.html'));
 });
-
-// 404 handling
+//4... TRoute to user page
+app.get('/user', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'user.html'));
+});
+// 404 handling page
 app.use((req, res) => {
     res.status(404).send('<h1>Page not found</h1>');
 });
