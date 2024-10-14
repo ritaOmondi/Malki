@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/entry.css">
+    <title>Entry Form</title>
+</head>
+<body>
+    <div>
+        <form action ="/add-entry" method="post"> 
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="diagnosis">Diagnosis</label>
+            <input type="text" id="diagnosis" name="diagnosis" required>
+
+            <label for="location">Residence</label>
+            <input type="text" id="location" name="location" required>
+
+            <label for="county">County</label>
+            <input type="text" id="county" name="county" required>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

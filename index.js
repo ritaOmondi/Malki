@@ -1,6 +1,7 @@
 const express = require('express');
 const userRoutes = require('./controllers/userRoutes');
 const User = require('./models/User'); // Import the User model
+const Entry = require('./models/Entry'); //Import entry model
 const port = 8001;
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -109,9 +110,48 @@ app.get('/register', (req, res) => {
 app.get('/login', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'login.html'));
 });
-//4... TRoute to user page
+//4... Route to user page
 app.get('/user', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'user.html'));
+});
+//5.. Route to entry form
+app.get('/addEntry', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'addEntry.html'));
+});
+
+// Route to handle form submission
+app.post('/add-entry', (req, res) => {
+    const { name, age, diagnosis, location, county } = req.body;
+
+    const newEntry = new Entry({
+        name,
+        age,
+        diagnosis,
+        location,
+        county
+    });
+
+    newEntry.save()
+        .then(() => {
+            console.log("Entry successfully added");
+            return res.redirect('/user.html'); // Redirect back to the user page after adding
+        })
+        .catch(err => {
+            console.error("Error adding entry:", err);
+            return res.status(500).send("Error adding entry");
+        });
+});
+
+// Route to fetch all entries
+app.get('/api/entries', (req, res) => {
+    Entry.find()
+        .then(entries => {
+            res.json(entries); // Send entries as JSON
+        })
+        .catch(err => {
+            console.error("Error fetching entries:", err);
+            res.status(500).send("Error fetching entries");
+        });
 });
 // 404 handling page
 app.use((req, res) => {

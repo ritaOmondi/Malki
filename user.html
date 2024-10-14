@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>users</title>
+    <title>User Entries</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="assets/css/user.css">
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="assets/script/user.js"></script>
+
 </head>
 <body>
-
-    <button id= "btn"> New </button>
-    <table id="example" class="display" style="width:100%">
+    <button id="btn" onclick="window.location.href='/addEntry.html'"> New </button>
+    <table id="example">
         <thead>
             <tr>
                 <th>Name</th>
@@ -24,25 +24,38 @@
             </tr>
         </thead>
         <tbody>
-           
-            <tr>
-                <td>Michael Bruce</td>
-                <td>Javascript Developer</td>
-                <td>Singapore</td>
-                <td>29</td>
-                <td>2011-06-27</td>
-            
-            </tr>
-            <tr>
-                <td>Donna Snider</td>
-                <td>Customer Support</td>
-                <td>New York</td>
-                <td>27</td>
-                <td>2011-01-25</td>
-             
-            </tr>
+            <!-- Rows will be populated here -->
         </tbody>
-        
     </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/entries')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(entries => {
+                    const tableBody = document.querySelector('#example tbody');
+                    tableBody.innerHTML = ''; // Clear existing entries
+                    entries.forEach(entry => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${entry.name}</td>
+                            <td>${entry.age}</td>
+                            <td>${entry.diagnosis}</td>
+                            <td>${entry.location}</td>
+                            <td>${entry.county}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching entries:', error);
+                });
+        });
+    </script>
 </body>
 </html>
