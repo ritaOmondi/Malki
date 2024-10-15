@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="assets/css/profile.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <div class="profile-container">
+        <h1 id="userName"></h1>
+        <img id="userPhoto" src="#" alt="Profile Picture" style="max-width: 200px; border-radius: 50%; display: none;">
+        <p><strong>Father's Name:</strong> <span id="userFather"></span></p>
+        <p><strong>Mother's Name:</strong> <span id="userMother"></span></p>
+        <p><strong>Diagnosis:</strong> <span id="userDiagnosis"></span></p>
+        <p><strong>Gender:</strong> <span id="userGender"></span></p>
+        <p><strong>Age:</strong> <span id="userAge"></span></p>
+        <p><strong>Notes:</strong> <span id="userNotes"></span></p>
+        <p><strong>On Therapy:</strong> <span id="userTreat"></span></p>
+        <a href="/user.html">Back to Users</a>
+    </div>
+
+    <script>
+        // This script will be populated with data from the server
+        const userData = {
+            name: "John Doe", // Replace with dynamic data
+            father: "Father's Name",
+            mother: "Mother's Name",
+            diagnosis: "Diagnosis Info",
+            gender: "Male",
+            age: 30,
+            notes: "Some notes about the user",
+            treat: "Yes",
+            photo: "path/to/photo.jpg" // Replace with dynamic photo path
+        };
+
+        // Populate the fields with data
+        document.getElementById('userName').innerText = userData.name;
+        document.getElementById('userFather').innerText = userData.father;
+        document.getElementById('userMother').innerText = userData.mother;
+        document.getElementById('userDiagnosis').innerText = userData.diagnosis;
+        document.getElementById('userGender').innerText = userData.gender;
+        document.getElementById('userAge').innerText = userData.age;
+        document.getElementById('userNotes').innerText = userData.notes;
+        document.getElementById('userTreat').innerText = userData.treat;
+        const userPhoto = document.getElementById('userPhoto');
+        userPhoto.src = userData.photo;
+        userPhoto.style.display = 'block'; // Show the photo
+    </script>
+</body>
+</html>

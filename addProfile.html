@@ -4,34 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/css/addprofile.css">
-  <title>addprofile</title>
+  <title>Add Profile</title>
 </head>
 <body>
   <div class="form-container">
-    <form action="/add-entry" id="profileForm" method="post" enctype="multipart/form-data">
+    <form action="/profile" id="profileForm" method="post" enctype="multipart/form-data">
       <div class="column-left">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" required>
 
         <label for="father">Father's Name</label>
-        <input type="father" name="father" id="father" required>
+        <input type="text" name="father" id="father" required>
+
         <label for="mother">Mother's Name</label>
-        <input type="mother" name="mother" id="mother" required>
+        <input type="text" name="mother" id="mother" required>
+
         <label for="diagnosis">Diagnosis</label>
-        <input type="diagnosis" name="diagnosis" id="diagnosis" required>
+        <input type="text" name="diagnosis" id="diagnosis" required>
 
         <label for="gender">Gender:</label>
         <select name="gender" id="gender" required>
-          <option value="male">male</option>
+          <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="other">Other</option>
         </select>
 
         <label for="age">Age:</label>
         <input type="number" name="age" id="age" required>
-
-        <label for="age">Diagnosis:</label>
-        <input type="text" name="diagnosis" id="diagnosis" required>
 
         <label for="notes">Notes:</label>
         <textarea id="notes" name="notes"></textarea>
@@ -40,17 +39,14 @@
         <select name="treat" id="treat" required>
           <option value="yes">Yes</option>
           <option value="no">No</option>
-          <option value="other">Other</option>
         </select>
 
-
-
-        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="submit">Submit</button>
       </div>
 
       <div class="column-right">
         <label for="photo">Profile Picture:</label>
-        <input type="file" name="photo" id="photo" onchange="displayProfilePic()">
+        <input type="file" name="photo" id="photo" onchange="displayProfilePic()" required>
         <img src="#" alt="Profile Picture" style="display: none;" id="profilePic">
       </div>
     </form>
@@ -70,14 +66,6 @@
         };
 
         reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    function submitForm() {
-      const formData = new FormData(document.getElementById('profileForm'));
-
-      for (const pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
       }
     }
   </script>

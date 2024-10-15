@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./controllers/userRoutes');
 const User = require('./models/User'); // Import the User model
 const Entry = require('./models/Entry'); //Import entry model
+const Profile = require('./models/People'); // Import the people model
 const port = 8001;
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -9,13 +10,15 @@ const path = require('path');
 const mongoose = require('mongoose');
 const multer = require('multer'); //for file upload
 
+
 // Start the express framework
 const app = express();
 
-// Use the dependencies
+// Use the dependencies/middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads')); // Serve static files from uploads directory
 
 // Connecting to all static files
 app.use(express.static(path.join(__dirname))); 
@@ -31,6 +34,8 @@ mongoose.connect('mongodb+srv://Rita:Rita@cluster0.rcn7l.mongodb.net/?retryWrite
   console.log("Connection Failed!");
 });
 
+
+//Registration and login forms
 // Registration route
 app.post("/register", (req, res) => {
   const { name, email, phone, password, confirmPassword } = req.body;
@@ -98,6 +103,8 @@ app.post("/login", (req, res) => {
             return res.redirect('/login?error=Internal server error');
         });
 });
+
+
 //ROUTES
 // 1....Connecting with the index.html
 app.get('/', (req, res) => {
@@ -119,8 +126,17 @@ app.get('/user', (req, res) => {
 app.get('/addEntry', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'addEntry.html'));
 });
+app.get('/addProfile', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'addProfile.html'));
+});
+app.get('/profile', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'profile.html'));
+});
 
-// Route to handle form submission
+
+
+
+// Route to handle entry form submission
 app.post('/add-entry', (req, res) => {
     const { name, age, diagnosis, location, county } = req.body;
 
@@ -154,6 +170,85 @@ app.get('/api/entries', (req, res) => {
             res.status(500).send("Error fetching entries");
         });
 });
+
+// Route to fetch all profiles
+app.get('/api/profiles', (req, res) => {
+    Profile.find()
+        .then(profiles => {
+            res.json(profiles); // Send profiles as JSON
+        })
+        .catch(err => {
+            console.error("Error fetching profiles:", err);
+            res.status(500).send("Error fetching profiles");
+        });
+});
+
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); 
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+    },
+});
+
+const upload = multer({ storage: storage });
+
+// Route to handle profile form submission
+app.post('/profile', upload.single('photo'), (req, res) => {
+    const { name, father, mother, diagnosis, gender, age, notes, treat } = req.body;
+    const photo = req.file.path; // Path to the uploaded image
+
+    const newProfile = new Profile({
+        name,
+        father,
+        mother,
+        diagnosis,
+        gender,
+        age,
+        notes,
+        treat,
+        photo // Include the photo field
+    });
+
+    newProfile.save()
+        .then(() => {
+            console.log("Profile successfully added");
+            return res.redirect('/user.html'); // Redirect to user page after adding
+        })
+        .catch(err => {
+            console.error("Error adding profile:", err);
+            return res.status(500).send("Error adding profile");
+        });
+});
+
+app.get('/profile/:id', (req, res) => {
+    Entry.findById(req.params.id)
+        .then(entry => {
+            if (!entry) {
+                return res.status(404).send("Profile not found");
+            }
+            res.render('profile.html', {
+                name: entry.name,
+                father: entry.father,
+                mother: entry.mother,
+                diagnosis: entry.diagnosis,
+                gender: entry.gender,
+                age: entry.age,
+                notes: entry.notes,
+                treat: entry.treat,
+                photo: entry.photo
+            });
+        })
+        .catch(err => {
+            console.error("Error fetching profile:", err);
+            res.status(500).send("Error fetching profile");
+        });
+});
+
+
 // 404 handling page
 app.use((req, res) => {
     res.status(404).send('<h1>Page not found</h1>');
