@@ -7,6 +7,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
+const multer = require('multer'); //for file upload
 
 // Start the express framework
 const app = express();

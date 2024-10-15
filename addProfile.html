@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="form-container">
-    <form action="" id="profileForm">
+    <form action="/add-entry" id="profileForm" method="post" enctype="multipart/form-data">
       <div class="column-left">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" required>
@@ -32,6 +32,9 @@
 
         <label for="age">Diagnosis:</label>
         <input type="text" name="diagnosis" id="diagnosis" required>
+
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea>
 
         <label for="treat">Is the Individual on Therapy?</label>
         <select name="treat" id="treat" required>
