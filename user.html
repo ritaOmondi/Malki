@@ -10,10 +10,11 @@
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="assets/script/user.js"></script>
 
+
 </head>
 <body>
     <button id="btn" onclick="window.location.href='/addEntry.html'"> New </button>
-    <table id="example">
+    <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Name</th>
@@ -28,7 +29,7 @@
         </tbody>
     </table>
 
-    <script>
+  <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/api/entries')
                 .then(response => {
@@ -43,7 +44,7 @@
                     entries.forEach(entry => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${entry.name}</td>
+                            <td><a href="/profile/${entry._id}">${entry.name}</a></td>
                             <td>${entry.age}</td>
                             <td>${entry.diagnosis}</td>
                             <td>${entry.location}</td>

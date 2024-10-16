@@ -1,17 +1,16 @@
 const express = require('express');
 const userRoutes = require('./controllers/userRoutes');
 const User = require('./models/User'); // Import the User model
-const Entry = require('./models/Entry'); //Import entry model
-const Profile = require('./models/People'); // Import the people model
+const Entry = require('./models/Entry'); // Import Entry model
+const Profile = require('./models/People'); // Import Profile model
 const port = 8001;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
-const multer = require('multer'); //for file upload
+const multer = require('multer'); // For file upload
 
-
-// Start the express framework
+// Start the Express framework
 const app = express();
 
 // Use the dependencies/middleware
@@ -34,8 +33,7 @@ mongoose.connect('mongodb+srv://Rita:Rita@cluster0.rcn7l.mongodb.net/?retryWrite
   console.log("Connection Failed!");
 });
 
-
-//Registration and login forms
+// Registration and login forms
 // Registration route
 app.post("/register", (req, res) => {
   const { name, email, phone, password, confirmPassword } = req.body;
@@ -81,6 +79,7 @@ app.post("/register", (req, res) => {
           return res.status(500).send("Internal server error");
       });
 });
+
 // Login route
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
@@ -88,14 +87,11 @@ app.post("/login", (req, res) => {
     User.findOne({ email: email })
         .then(user => {
             if (!user) {
-                // Redirect with error message
                 return res.redirect('/login?error=User not found. Please sign up.');
             }
             if (user.password !== password) {
                 return res.redirect('/login?error=Incorrect password. Please try again.');
             }
-            // If everything is correct, proceed with login
-            // Redirect to user.html after successful login
             return res.redirect('/user.html'); // Change this line
         })
         .catch(err => {
@@ -104,25 +100,19 @@ app.post("/login", (req, res) => {
         });
 });
 
-
-//ROUTES
-// 1....Connecting with the index.html
+// ROUTES
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'index.html'));
 });
-// 2.. Connecting with register page
 app.get('/register', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'register.html'));
 });
-//3... Route to login page
 app.get('/login', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'login.html'));
 });
-//4... Route to user page
 app.get('/user', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'user.html'));
 });
-//5.. Route to entry form
 app.get('/addEntry', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'addEntry.html'));
 });
@@ -132,9 +122,6 @@ app.get('/addProfile', (req, res) => {
 app.get('/profile', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'profile.html'));
 });
-
-
-
 
 // Route to handle entry form submission
 app.post('/add-entry', (req, res) => {
@@ -183,7 +170,6 @@ app.get('/api/profiles', (req, res) => {
         });
 });
 
-
 // Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -199,7 +185,7 @@ const upload = multer({ storage: storage });
 // Route to handle profile form submission
 app.post('/profile', upload.single('photo'), (req, res) => {
     const { name, father, mother, diagnosis, gender, age, notes, treat } = req.body;
-    const photo = req.file.path; // Path to the uploaded image
+    const photo = req.file ? req.file.path : null; // Handle optional photo
 
     const newProfile = new Profile({
         name,
@@ -214,9 +200,9 @@ app.post('/profile', upload.single('photo'), (req, res) => {
     });
 
     newProfile.save()
-        .then(() => {
+        .then(profile => {
             console.log("Profile successfully added");
-            return res.redirect('/user.html'); // Redirect to user page after adding
+            return res.redirect(`/profile/${profile._id}`); // Redirect to the new profile page
         })
         .catch(err => {
             console.error("Error adding profile:", err);
@@ -224,30 +210,31 @@ app.post('/profile', upload.single('photo'), (req, res) => {
         });
 });
 
+// Route to fetch profile by ID
 app.get('/profile/:id', (req, res) => {
-    Entry.findById(req.params.id)
-        .then(entry => {
-            if (!entry) {
+    Profile.findById(req.params.id)
+        .then(profile => {
+            if (!profile) {
                 return res.status(404).send("Profile not found");
             }
-            res.render('profile.html', {
-                name: entry.name,
-                father: entry.father,
-                mother: entry.mother,
-                diagnosis: entry.diagnosis,
-                gender: entry.gender,
-                age: entry.age,
-                notes: entry.notes,
-                treat: entry.treat,
-                photo: entry.photo
-            });
+            res.status(200).json(profile); // Send profile as JSON
         })
         .catch(err => {
             console.error("Error fetching profile:", err);
             res.status(500).send("Error fetching profile");
         });
 });
-
+// Route to fetch all entries and render in user.html
+app.get('/user', (req, res) => {
+    Entry.find()
+        .then(entries => {
+            res.render('user.html', { entries }); // Pass entries to the template
+        })
+        .catch(err => {
+            console.error("Error fetching entries:", err);
+            res.status(500).send("Error fetching entries");
+        });
+});
 
 // 404 handling page
 app.use((req, res) => {

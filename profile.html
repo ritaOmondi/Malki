@@ -21,31 +21,36 @@
     </div>
 
     <script>
-        // This script will be populated with data from the server
-        const userData = {
-            name: "John Doe", // Replace with dynamic data
-            father: "Father's Name",
-            mother: "Mother's Name",
-            diagnosis: "Diagnosis Info",
-            gender: "Male",
-            age: 30,
-            notes: "Some notes about the user",
-            treat: "Yes",
-            photo: "path/to/photo.jpg" // Replace with dynamic photo path
-        };
+        // Get the profile ID from the URL
+        const profileId = window.location.pathname.split('/').pop();
 
-        // Populate the fields with data
-        document.getElementById('userName').innerText = userData.name;
-        document.getElementById('userFather').innerText = userData.father;
-        document.getElementById('userMother').innerText = userData.mother;
-        document.getElementById('userDiagnosis').innerText = userData.diagnosis;
-        document.getElementById('userGender').innerText = userData.gender;
-        document.getElementById('userAge').innerText = userData.age;
-        document.getElementById('userNotes').innerText = userData.notes;
-        document.getElementById('userTreat').innerText = userData.treat;
-        const userPhoto = document.getElementById('userPhoto');
-        userPhoto.src = userData.photo;
-        userPhoto.style.display = 'block'; // Show the photo
+        // Fetch the profile data from the server
+        fetch(`/profile/${profileId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Profile not found');
+                }
+                return response.json();
+            })
+            .then(profile => {
+                // Populate the fields with data from the profile
+                document.getElementById('userName').innerText = profile.name;
+                document.getElementById('userFather').innerText = profile.father;
+                document.getElementById('userMother').innerText = profile.mother;
+                document.getElementById('userDiagnosis').innerText = profile.diagnosis;
+                document.getElementById('userGender').innerText = profile.gender;
+                document.getElementById('userAge').innerText = profile.age;
+                document.getElementById('userNotes').innerText = profile.notes;
+                document.getElementById('userTreat').innerText = profile.treat;
+
+                const userPhoto = document.getElementById('userPhoto');
+                userPhoto.src = profile.photo; // Set the photo path from the profile
+                userPhoto.style.display = 'block'; // Show the photo
+            })
+            .catch(error => {
+                console.error('Error fetching profile:', error);
+                document.querySelector('.profile-container').innerText = 'Profile not found.';
+            });
     </script>
 </body>
 </html>
