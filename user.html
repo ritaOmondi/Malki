@@ -9,8 +9,6 @@
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="assets/script/user.js"></script>
-
-
 </head>
 <body>
     <button id="btn" onclick="window.location.href='/addEntry.html'"> New </button>
@@ -22,6 +20,7 @@
                 <th>Diagnosis</th>
                 <th>Location</th>
                 <th>County</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +28,7 @@
         </tbody>
     </table>
 
-  <script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/api/entries')
                 .then(response => {
@@ -50,9 +49,9 @@
                             <td>${entry.location}</td>
                             <td>${entry.county}</td>
                             <td>
-                            <button onclick="openEditModal('${entry._id}')">Edit</button>
-                             <button onclick="deleteEntry('${entry._id}')">Delete</button>
-                             </td>
+                                <button onclick="openEditModal('${entry._id}')">Edit</button> 
+                                <button onclick="deleteEntry('${entry._id}')">Delete</button>
+                            </td>
                         `;
                         tableBody.appendChild(row);
                     });
@@ -60,44 +59,41 @@
                 .catch(error => {
                     console.error('Error fetching entries:', error);
                 });
-                
-            // Add search functionality
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const table = $('#example').DataTable();
-                table.search(this.value).draw(); // Search the table
-            });
         });
-        //adding the edit functionality
+
+        // Function to open the edit modal and fetch entry data
         function openEditModal(id) {
-    fetch(`/api/entries/${id}`)
-        .then(response => response.json())
-        .then(entry => {
-            document.getElementById("modalTitle").innerText = "Edit Entry";
-            document.getElementById("entryId").value = entry._id; // Set ID
-            document.getElementById("name").value = entry.name;
-            document.getElementById("age").value = entry.age;
-            document.getElementById("diagnosis").value = entry.diagnosis;
-            document.getElementById("location").value = entry.location;
-            document.getElementById("county").value = entry.county;
-            document.getElementById("entryModal").style.display = "block"; // Show modal
-        });
-}
-//adding the delete button functionality
-function deleteEntry(id) {
-    if (confirm("Are you sure you want to delete this entry?")) {
-        fetch(`/delete-entry/${id}`, { method: 'DELETE' })
-            .then(response => {
-                if (response.ok) {
-                    alert("Entry deleted successfully!");
-                    // Optionally refresh the table or remove the entry from the DOM
-                    window.location.reload(); // Reload to see updated entries
-                } else {
-                    alert("Error deleting entry.");
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
-}
+            fetch(`/api/entries/${id}`)
+                .then(response => response.json())
+                .then(entry => {
+                    const modal = document.getElementById("entryModal");
+                    document.getElementById("modalTitle").innerText = "Edit Entry";
+                    document.getElementById("entryId").value = entry._id; // Set ID
+                    document.getElementById("edit_name").value = entry.name;
+                    document.getElementById("edit_age").value = entry.age;
+                    document.getElementById("edit_diagnosis").value = entry.diagnosis;
+                    document.getElementById("edit_location").value = entry.location;
+                    document.getElementById("edit_county").value = entry.county;
+                    modal.style.display = "block"; // Show modal
+                })
+                .catch(error => console.error('Error fetching entry:', error));
+        }
+
+        // Function to delete an entry
+        function deleteEntry(id) {
+            if (confirm("Are you sure you want to delete this entry?")) {
+                fetch(`/delete-entry/${id}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Entry deleted successfully!");
+                            window.location.reload(); // Reload to see updated entries
+                        } else {
+                            alert("Error deleting entry.");
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
     </script>
 </body>
 </html>
