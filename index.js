@@ -157,6 +157,20 @@ app.get('/api/entries', (req, res) => {
             res.status(500).send("Error fetching entries");
         });
 });
+//updating entries
+
+app.put('/update-entry/:id', (req, res) => {
+    Entry.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .then(updatedEntry => res.json(updatedEntry))
+        .catch(err => res.status(400).send('Error updating entry: ' + err));
+});
+// deleting entries
+app.delete('/delete-entry/:id', (req, res) => {
+    Entry.findByIdAndDelete(req.params.id)
+        .then(() => res.status(204).send())
+        .catch(err => res.status(400).send('Error deleting entry: ' + err));
+});
+
 
 // Route to fetch all profiles
 app.get('/api/profiles', (req, res) => {

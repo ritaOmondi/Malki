@@ -49,6 +49,10 @@
                             <td>${entry.diagnosis}</td>
                             <td>${entry.location}</td>
                             <td>${entry.county}</td>
+                            <td>
+                            <button onclick="openEditModal('${entry._id}')">Edit</button>
+                             <button onclick="deleteEntry('${entry._id}')">Delete</button>
+                             </td>
                         `;
                         tableBody.appendChild(row);
                     });
@@ -56,7 +60,44 @@
                 .catch(error => {
                     console.error('Error fetching entries:', error);
                 });
+                
+            // Add search functionality
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const table = $('#example').DataTable();
+                table.search(this.value).draw(); // Search the table
+            });
         });
+        //adding the edit functionality
+        function openEditModal(id) {
+    fetch(`/api/entries/${id}`)
+        .then(response => response.json())
+        .then(entry => {
+            document.getElementById("modalTitle").innerText = "Edit Entry";
+            document.getElementById("entryId").value = entry._id; // Set ID
+            document.getElementById("name").value = entry.name;
+            document.getElementById("age").value = entry.age;
+            document.getElementById("diagnosis").value = entry.diagnosis;
+            document.getElementById("location").value = entry.location;
+            document.getElementById("county").value = entry.county;
+            document.getElementById("entryModal").style.display = "block"; // Show modal
+        });
+}
+//adding the delete button functionality
+function deleteEntry(id) {
+    if (confirm("Are you sure you want to delete this entry?")) {
+        fetch(`/delete-entry/${id}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    alert("Entry deleted successfully!");
+                    // Optionally refresh the table or remove the entry from the DOM
+                    window.location.reload(); // Reload to see updated entries
+                } else {
+                    alert("Error deleting entry.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+}
     </script>
 </body>
 </html>
