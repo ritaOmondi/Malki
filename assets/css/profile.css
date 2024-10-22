@@ -1,14 +1,4 @@
-/**
-* Template Name: NiceAdmin
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Updated: Apr 20 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 :root {
     scroll-behavior: smooth;
   }
@@ -16,7 +6,7 @@
   body {
     font-family: "Open Sans", sans-serif;
     background: #f6f9ff;
-    color: #444444;
+    color: #0e0101;
   }
   
   a {
@@ -37,10 +27,7 @@
   h6 {
     font-family: "Nunito", sans-serif;
   }
-  
-  /*--------------------------------------------------------------
-  # Main
-  --------------------------------------------------------------*/
+
   #main {
     margin-top: 60px;
     padding: 20px 30px;
@@ -53,9 +40,7 @@
     }
   }
   
-  /*--------------------------------------------------------------
-  # Page Title
-  --------------------------------------------------------------*/
+
   .pagetitle {
     margin-bottom: 10px;
   }
@@ -114,42 +99,7 @@
     box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
   }
   
-  .dropdown-menu .dropdown-header,
-  .dropdown-menu .dropdown-footer {
-    text-align: center;
-    font-size: 15px;
-    padding: 10px 25px;
-  }
   
-  .dropdown-menu .dropdown-footer a {
-    color: #444444;
-    text-decoration: underline;
-  }
-  
-  .dropdown-menu .dropdown-footer a:hover {
-    text-decoration: none;
-  }
-  
-  .dropdown-menu .dropdown-divider {
-    color: #a5c5fe;
-    margin: 0;
-  }
-  
-  .dropdown-menu .dropdown-item {
-    font-size: 14px;
-    padding: 10px 15px;
-    transition: 0.3s;
-  }
-  
-  .dropdown-menu .dropdown-item i {
-    margin-right: 10px;
-    font-size: 18px;
-    line-height: 0;
-  }
-  
-  .dropdown-menu .dropdown-item:hover {
-    background-color: #f6f9ff;
-  }
   
   @media (min-width: 768px) {
     .dropdown-menu-arrow::before {
